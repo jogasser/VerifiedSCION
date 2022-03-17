@@ -16,11 +16,39 @@ jobs:
     steps:
       - name: Checkout VerifiedSCION
         uses: actions/checkout@v2
-        
-      - name: Verify all Gobra files
+      - name: Cache Viper Server cache
+          uses: actions/cache@v2
+          env:
+            cache-name: vs-cache
+          with:
+            path: ${{ runner.workspace }}/.gobra/cache.json 
+            key: ${{ env.cache-name }}  
+      - name: Verify Router package
         uses: jogasser/gobra-action@main
         with:
+          caching: 1
+          viperBackend: VSWITHSILICON
+          chop: 100
+          package: router
           packageLocation: gobra
-          globalTimeout: 13h
-          packageTimeout: 10h
+          globalTimeout: 5h
+      - name: Archive statistics report for the router package
+        uses: actions/upload-artifact@v2
+        with:
+          name: stats-router
+          path: ${{ runner.workspace }}/.gobra/stats.json     
+      - name: Verify Other packages
+        uses: jogasser/gobra-action@main
+        with:
+          caching: 1
+          viperBackend: VSWITHSILICON
+          excludePackages: router
+          packageLocation: gobra
+          globalTimeout: 6h
+          packageTimeout: 1h
+      - name: Archive statistics report
+        uses: actions/upload-artifact@v2
+        with:
+          name: stats
+          path: ${{ runner.workspace }}/.gobra/stats.json     
           

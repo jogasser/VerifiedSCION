@@ -29,8 +29,8 @@ jobs:
           caching: 1
           viperBackend: VSWITHSILICON
           chop: 100
-          package: router
-          packageLocation: gobra
+          packages: router
+          srcDirectory: gobra
           globalTimeout: 5h
       - name: Archive statistics report for the router package
         uses: actions/upload-artifact@v2

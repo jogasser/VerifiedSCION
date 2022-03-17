@@ -17,7 +17,7 @@ jobs:
       - name: Checkout VerifiedSCION
         uses: actions/checkout@v2
       - name: Caching
-         if: always()
+        if: always()
         uses: actions/cache@v2
         env:
           cache-name: vs-cache-router

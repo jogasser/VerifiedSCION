@@ -22,30 +22,14 @@ jobs:
           cache-name: vs-cache
         with:
           path: ${{ runner.workspace }}/.gobra/cache.json 
-          key: ${{ env.cache-name }}  
-      - name: Verify Router package
+          key: ${{ env.cache-name }}    
+      - name: Verify packages
         uses: jogasser/gobra-action@main
         with:
           caching: 1
           viperBackend: VSWITHSILICON
-          chop: 100
-          packages: router
-          srcDirectory: gobra
-          globalTimeout: 5h
-      - name: Archive statistics report for the router package
-        uses: actions/upload-artifact@v2
-        with:
-          name: statistics-router
-          path: ${{ runner.workspace }}/.gobra/stats.json     
-      - name: Verify Other packages
-        uses: jogasser/gobra-action@main
-        with:
-          caching: 1
-          viperBackend: VSWITHSILICON
-          excludePackages: router
           packageLocation: gobra
           globalTimeout: 6h
-          packageTimeout: 1h
       - name: Archive statistics report
         uses: actions/upload-artifact@v2
         with:

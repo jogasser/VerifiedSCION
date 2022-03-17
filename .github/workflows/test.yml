@@ -17,12 +17,12 @@ jobs:
       - name: Checkout VerifiedSCION
         uses: actions/checkout@v2
       - name: Cache Viper Server cache
-          uses: actions/cache@v2
-          env:
-            cache-name: vs-cache
-          with:
-            path: ${{ runner.workspace }}/.gobra/cache.json 
-            key: ${{ env.cache-name }}  
+        uses: actions/cache@v2
+        env:
+          cache-name: vs-cache
+        with:
+          path: ${{ runner.workspace }}/.gobra/cache.json 
+          key: ${{ env.cache-name }}  
       - name: Verify Router package
         uses: jogasser/gobra-action@main
         with:

@@ -17,6 +17,7 @@ jobs:
       - name: Checkout VerifiedSCION
         uses: actions/checkout@v2
       - name: Caching
+         if: always()
         uses: actions/cache@v2
         env:
           cache-name: vs-cache-router
@@ -32,11 +33,13 @@ jobs:
           packages: router
           srcDirectory: gobra
       - name: Archive statistics report
+        if: always() 
         uses: actions/upload-artifact@v2
         with:
           name: statistics-router
           path: ${{ runner.workspace }}/.gobra/stats.json     
       - name: Archive cache
+        if: always()
         uses: actions/upload-artifact@v2
         with:
           name: cache-router
@@ -47,6 +50,7 @@ jobs:
       - name: Checkout VerifiedSCION
         uses: actions/checkout@v2
       - name: Cache VerifiedSCION cache
+        if: always()
         uses: actions/cache@v2
         env:
           cache-name: vs-cache
@@ -62,11 +66,13 @@ jobs:
           excludePackages: router
           srcDirectory: gobra
       - name: Archive statistics report
+        if: always()
         uses: actions/upload-artifact@v2
         with:
           name: statistics
           path: ${{ runner.workspace }}/.gobra/stats.json     
       - name: Archive cache
+        if: always()
         uses: actions/upload-artifact@v2
         with:
           name: cache

@@ -35,7 +35,7 @@ jobs:
       - name: Archive statistics report for the router package
         uses: actions/upload-artifact@v2
         with:
-          name: stats-router
+          name: statistics-router
           path: ${{ runner.workspace }}/.gobra/stats.json     
       - name: Verify Other packages
         uses: jogasser/gobra-action@main
@@ -49,6 +49,10 @@ jobs:
       - name: Archive statistics report
         uses: actions/upload-artifact@v2
         with:
-          name: stats
+          name: statistics
           path: ${{ runner.workspace }}/.gobra/stats.json     
-          
+      - name: Archive cache
+        uses: actions/upload-artifact@v2
+        with:
+          name: cache
+          path: ${{ runner.workspace }}/.gobra/cache.json    

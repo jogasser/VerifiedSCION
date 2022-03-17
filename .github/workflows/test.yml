@@ -29,6 +29,7 @@ jobs:
           caching: 1
           chop: 100
           viperBackend: VSWITHSILICON
+          packages: router
           srcDirectory: gobra
       - name: Archive statistics report
         uses: actions/upload-artifact@v2
@@ -58,6 +59,7 @@ jobs:
           caching: 1
           viperBackend: VSWITHSILICON
           packageTimeout: 1h # needed for the conn package
+          pxcludePackages: router
           srcDirectory: gobra
       - name: Archive statistics report
         uses: actions/upload-artifact@v2

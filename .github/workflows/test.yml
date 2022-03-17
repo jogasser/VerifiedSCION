@@ -11,12 +11,41 @@ on:
   # pull_request: # run this workflow on every pull_request
 
 jobs:
-  setup-and-test:
+  verify-router:
     runs-on: ubuntu-latest
     steps:
       - name: Checkout VerifiedSCION
         uses: actions/checkout@v2
-      - name: Cache Viper Server cache
+      - name: Caching
+        uses: actions/cache@v2
+        env:
+          cache-name: vs-cache-router
+        with:
+          path: ${{ runner.workspace }}/.gobra/cache.json 
+          key: ${{ env.cache-name }}    
+      - name: Verify router package
+        uses: jogasser/gobra-action@main
+        with:
+          caching: 1
+          chop: 100
+          viperBackend: VSWITHSILICON
+          srcDirectory: gobra
+      - name: Archive statistics report
+        uses: actions/upload-artifact@v2
+        with:
+          name: statistics-router
+          path: ${{ runner.workspace }}/.gobra/stats.json     
+      - name: Archive cache
+        uses: actions/upload-artifact@v2
+        with:
+          name: cache-router
+          path: ${{ runner.workspace }}/.gobra/cache.json    
+  verify:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout VerifiedSCION
+        uses: actions/checkout@v2
+      - name: Cache VerifiedSCION cache
         uses: actions/cache@v2
         env:
           cache-name: vs-cache
@@ -28,6 +57,7 @@ jobs:
         with:
           caching: 1
           viperBackend: VSWITHSILICON
+          packageTimeout: 1h # needed for the conn package
           srcDirectory: gobra
       - name: Archive statistics report
         uses: actions/upload-artifact@v2

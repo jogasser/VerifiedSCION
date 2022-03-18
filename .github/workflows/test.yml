@@ -63,7 +63,7 @@ jobs:
           caching: 1
           viperBackend: VSWITHSILICON
           packageTimeout: 1h # needed for the conn package
-          excludePackages: router
+          excludePackages: "router conn"
           srcDirectory: gobra
       - name: Archive statistics report
         if: always()

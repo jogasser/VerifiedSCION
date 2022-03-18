@@ -18,7 +18,7 @@ jobs:
         uses: actions/checkout@v2
       - name: Caching
         if: always()
-        uses: actions/cache@v2
+        uses: gerbal/always-cache@v1.0.3
         env:
           cache-name: vs-cache-router
         with:
@@ -51,7 +51,7 @@ jobs:
         uses: actions/checkout@v2
       - name: Cache VerifiedSCION cache
         if: always()
-        uses: actions/cache@v2
+        uses: gerbal/always-cache@v1.0.3
         env:
           cache-name: vs-cache
         with:

@@ -60,6 +60,7 @@ jobs:
           caching: 1
           chop: 100
           viperBackend: VSWITHSILICON
+          packageTimeout: 3h
           packages: conn
           srcDirectory: gobra
       - name: Upload statistics report

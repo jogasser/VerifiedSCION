@@ -19,11 +19,10 @@ jobs:
       - name: Caching
         if: always()
         uses: gerbal/always-cache@v1.0.3
-        env:
-          cache-name: vs-cache-router
         with:
-          path: ${{ runner.workspace }}/.gobra/cache.json 
-          key: ${{ env.cache-name }}    
+          # Needs to be a folder
+          path: ${{ runner.workspace }}/.gobra
+          key: vs-cache-router
       - name: Verify router package
         uses: jogasser/gobra-action@main
         with:
@@ -32,18 +31,52 @@ jobs:
           viperBackend: VSWITHSILICON
           packages: router
           srcDirectory: gobra
-      - name: Archive statistics report
+      - name: Upload statistics report
         if: always() 
         uses: actions/upload-artifact@v2
         with:
           name: statistics-router
           path: ${{ runner.workspace }}/.gobra/stats.json     
-      - name: Archive cache
+      - name: Upload cache
         if: always()
         uses: actions/upload-artifact@v2
         with:
           name: cache-router
-          path: ${{ runner.workspace }}/.gobra/cache.json    
+          path: ${{ runner.workspace }}/.gobra/cache.json
+
+   verify-conn:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout VerifiedSCION
+        uses: actions/checkout@v2
+      - name: Caching
+        if: always()
+        uses: gerbal/always-cache@v1.0.3
+        with:
+          # Needs to be a folder
+          path: ${{ runner.workspace }}/.gobra
+          key: vs-cache-conn
+      - name: Verify conn package
+        uses: jogasser/gobra-action@main
+        with:
+          caching: 1
+          chop: 100
+          viperBackend: VSWITHSILICON
+          packages: conn
+          srcDirectory: gobra
+      - name: Upload statistics report
+        if: always() 
+        uses: actions/upload-artifact@v2
+        with:
+          name: statistics-conn
+          path: ${{ runner.workspace }}/.gobra/stats.json     
+      - name: Upload cache
+        if: always()
+        uses: actions/upload-artifact@v2
+        with:
+          name: cache-conn
+          path: ${{ runner.workspace }}/.gobra/cache.json
+          
   verify:
     runs-on: ubuntu-latest
     steps:
@@ -52,26 +85,25 @@ jobs:
       - name: Cache VerifiedSCION cache
         if: always()
         uses: gerbal/always-cache@v1.0.3
-        env:
-          cache-name: vs-cache
         with:
-          path: ${{ runner.workspace }}/.gobra/cache.json 
-          key: ${{ env.cache-name }}    
+          # Needs to be a folder
+          path: ${{ runner.workspace }}/.gobra
+          key: vs-cache  
       - name: Verify packages
         uses: jogasser/gobra-action@main
         with:
           caching: 1
           viperBackend: VSWITHSILICON
-          packageTimeout: 1h # needed for the conn package
+          packageTimeout: 1h 
           excludePackages: "router conn"
           srcDirectory: gobra
-      - name: Archive statistics report
+      - name: Upload statistics report
         if: always()
         uses: actions/upload-artifact@v2
         with:
           name: statistics
           path: ${{ runner.workspace }}/.gobra/stats.json     
-      - name: Archive cache
+      - name: Upload cache
         if: always()
         uses: actions/upload-artifact@v2
         with:

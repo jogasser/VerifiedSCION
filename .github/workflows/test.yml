@@ -8,8 +8,7 @@ name: test
 
 on:
   push: # run this workflow on every push
-  # pull_request: # run this workflow on every pull_request
-
+  pull_request: # run this workflow on every pull_request
 jobs:
   verify-router:
     runs-on: ubuntu-latest
@@ -43,8 +42,7 @@ jobs:
         with:
           name: cache-router
           path: ${{ runner.workspace }}/.gobra/cache.json
-
-   verify-conn:
+  verify-conn:
     runs-on: ubuntu-latest
     steps:
       - name: Checkout VerifiedSCION
@@ -75,8 +73,7 @@ jobs:
         uses: actions/upload-artifact@v2
         with:
           name: cache-conn
-          path: ${{ runner.workspace }}/.gobra/cache.json
-          
+          path: ${{ runner.workspace }}/.gobra/cache.json    
   verify:
     runs-on: ubuntu-latest
     steps:

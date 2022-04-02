@@ -23,13 +23,15 @@ jobs:
           path: ${{ runner.workspace }}/.gobra
           key: vs-cache-router
       - name: Verify router package
-        uses: jogasser/gobra-action@main
+        uses: viperproject/gobra-action@main
         with:
           caching: 1
           chop: 100
           viperBackend: VSWITHSILICON
           packages: router
           srcDirectory: gobra
+          imageName: ghcr.io/jogasser/gobra
+          imageVersion: test-vs-executor
       - name: Upload statistics report
         if: always() 
         uses: actions/upload-artifact@v2
@@ -42,39 +44,6 @@ jobs:
         with:
           name: cache-router
           path: ${{ runner.workspace }}/.gobra/cache.json
-  verify-conn:
-    runs-on: ubuntu-latest
-    steps:
-      - name: Checkout VerifiedSCION
-        uses: actions/checkout@v2
-      - name: Caching
-        if: always()
-        uses: gerbal/always-cache@v1.0.3
-        with:
-          # Needs to be a folder
-          path: ${{ runner.workspace }}/.gobra
-          key: vs-cache-conn
-      - name: Verify conn package
-        uses: jogasser/gobra-action@main
-        with:
-          caching: 1
-          chop: 100
-          viperBackend: VSWITHSILICON
-          packageTimeout: 3h
-          packages: conn
-          srcDirectory: gobra
-      - name: Upload statistics report
-        if: always() 
-        uses: actions/upload-artifact@v2
-        with:
-          name: statistics-conn
-          path: ${{ runner.workspace }}/.gobra/stats.json     
-      - name: Upload cache
-        if: always()
-        uses: actions/upload-artifact@v2
-        with:
-          name: cache-conn
-          path: ${{ runner.workspace }}/.gobra/cache.json    
   verify:
     runs-on: ubuntu-latest
     steps:
@@ -88,13 +57,15 @@ jobs:
           path: ${{ runner.workspace }}/.gobra
           key: vs-cache  
       - name: Verify packages
-        uses: jogasser/gobra-action@main
+        uses: viperproject/gobra-action@main
         with:
           caching: 1
           viperBackend: VSWITHSILICON
           packageTimeout: 1h 
-          excludePackages: "router conn"
+          excludePackages: "router"
           srcDirectory: gobra
+          imageName: ghcr.io/jogasser/gobra
+          imageVersion: test-vs-executor
       - name: Upload statistics report
         if: always()
         uses: actions/upload-artifact@v2

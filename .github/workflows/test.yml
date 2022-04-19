@@ -10,52 +10,52 @@ on:
   push: # run this workflow on every push
   pull_request: # run this workflow on every pull_request
 jobs:
-  verify-router:
-    runs-on: ubuntu-latest
-    steps:
-      - name: Checkout VerifiedSCION
-        uses: actions/checkout@v2
-      - name: Caching
-        if: always()
-        uses: gerbal/always-cache@v1.0.3
-        with:
-          # Needs to be a folder
-          path: ${{ runner.workspace }}/.gobra
-          key: vs-cache-router
-      - name: Verify router package
-        uses: viperproject/gobra-action@main
-        with:
-          caching: 1
-          chop: 100
-          viperBackend: VSWITHSILICON
-          packages: router
-          srcDirectory: gobra
-          imageName: ghcr.io/jogasser/gobra
-          imageVersion: test-vs-executor
-      - name: Upload statistics report
-        if: always() 
-        uses: actions/upload-artifact@v2
-        with:
-          name: statistics-router
-          path: ${{ runner.workspace }}/.gobra/stats.json     
-      - name: Upload cache
-        if: always()
-        uses: actions/upload-artifact@v2
-        with:
-          name: cache-router
-          path: ${{ runner.workspace }}/.gobra/cache.json
+  # verify-router:
+  #   runs-on: ubuntu-latest
+  #   steps:
+  #     - name: Checkout VerifiedSCION
+  #       uses: actions/checkout@v2
+  #     - name: Caching
+  #       if: always()
+  #       uses: gerbal/always-cache@v1.0.3
+  #       with:
+  #         # Needs to be a folder
+  #         path: ${{ runner.workspace }}/.gobra
+  #         key: vs-cache-router
+  #     - name: Verify router package
+  #       uses: viperproject/gobra-action@main
+  #       with:
+  #         caching: 1
+  #         chop: 100
+  #         viperBackend: VSWITHSILICON
+  #         packages: router
+  #         srcDirectory: gobra
+  #         imageName: ghcr.io/jogasser/gobra
+  #         imageVersion: test-vs-executor
+  #     - name: Upload statistics report
+  #       if: always() 
+  #       uses: actions/upload-artifact@v2
+  #       with:
+  #         name: statistics-router
+  #         path: ${{ runner.workspace }}/.gobra/stats.json     
+  #     - name: Upload cache
+  #       if: always()
+  #       uses: actions/upload-artifact@v2
+  #       with:
+  #         name: cache-router
+  #         path: ${{ runner.workspace }}/.gobra/cache.json
   verify:
     runs-on: ubuntu-latest
     steps:
       - name: Checkout VerifiedSCION
         uses: actions/checkout@v2
-      - name: Cache VerifiedSCION cache
-        if: always()
-        uses: gerbal/always-cache@v1.0.3
-        with:
-          # Needs to be a folder
-          path: ${{ runner.workspace }}/.gobra
-          key: vs-cache  
+      # - name: Cache VerifiedSCION cache
+      #   if: always()
+      #   uses: gerbal/always-cache@v1.0.3
+      #   with:
+      #     # Needs to be a folder
+      #     path: ${{ runner.workspace }}/.gobra
+      #     key: vs-cache  
       - name: Verify packages
         uses: viperproject/gobra-action@main
         with:
